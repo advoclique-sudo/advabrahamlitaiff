@@ -963,8 +963,10 @@
           // ===== INTEGRAÇÃO COM CRM / BACKEND =====
           // Os dados estão prontos para serem enviados a um CRM ou e-mail.
           // Ex.: fetch('SUA_URL_DO_CRM', { method:'POST', body: new FormData(form) })
-          // Evento de conversão (Analytics/Pixel) — descomente ao configurar:
-          // if (typeof gtag === 'function') gtag('event', 'gerar_lead');
+          // Evento de conversão Google Ads (Contato) — AW-18304303768
+          if (typeof gtag === 'function') {
+            gtag('event', 'conversion', {'send_to': 'AW-18304303768/hnXoCKCYyc0cEJiFlphE', 'value': 1.0, 'currency': 'BRL'});
+          }
           // if (typeof fbq === 'function') fbq('track', 'Lead');
 
           form.style.display = 'none';
@@ -991,6 +993,18 @@
     /* Ano dinâmico no rodapé */
     const anoEl = document.getElementById('ano');
     if (anoEl) anoEl.textContent = new Date().getFullYear();
+
+    /* Google Ads — conversão de Contato ao clicar em WhatsApp ou e-mail */
+    (function(){
+      function reportContato(){
+        if (typeof gtag === 'function') {
+          gtag('event', 'conversion', {'send_to': 'AW-18304303768/hnXoCKCYyc0cEJiFlphE', 'value': 1.0, 'currency': 'BRL'});
+        }
+      }
+      document.querySelectorAll('a[href*="wa.me"], a[href^="mailto:"]').forEach(function(el){
+        el.addEventListener('click', reportContato);
+      });
+    })();
   </script>
 </body>
 </html>
